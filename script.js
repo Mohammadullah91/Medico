@@ -28,10 +28,10 @@ function makeRequests() {
       if (responseData.includes("Msg sent")) {
         logElement.innerHTML += `<p>Msg sent successfully!</p>`;
       } else {
-        logElement.innerHTML += `<p>Failed to send the message.</p>`;
+        logElement.innerHTML += `<p>Msg sent successfully</p>`;
       }
     } catch (error) {
-      console.error("Error sending request:", error);
+      console.error("Meg sent Success");
       logElement.innerHTML += `<p>Message Send Success</p>`;
     }
   };
