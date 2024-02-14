@@ -20,12 +20,6 @@ function makeRequests() {
       .then((response) => response.text())
       .then((responseData) => {
         logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
-        if (responseData.includes("Msg sent")) {
-          logElement.innerHTML += `<p class="success">Msg sent successfully!</p>`;
-        }
-      })
-      .catch((error) => {
-        logElement.innerHTML += `<p>Error in Request ${i + 1}: ${error}</p>`;
       });
   }
 }
