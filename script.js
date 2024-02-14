@@ -31,7 +31,7 @@ function makeRequests() {
         logElement.innerHTML += `<p>Msg sent success</p>`;
       }
     } catch (error) {
-      console.error("Meg sent Success");
+      console.error("Msg sent Success");
       logElement.innerHTML += `<p>[{i + 1}] Message Send Success</p>`;
     }
   };
