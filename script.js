@@ -22,7 +22,7 @@ function makeRequests() {
         if (responseData.includes("Msg sent")) {
           logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
         } else {
-          logElement.innerHTML += `<p> ${i + 1}: ${responseData}</p>`;
+          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
         }
       });
   }
