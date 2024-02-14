@@ -19,7 +19,11 @@ function makeRequests() {
     })
       .then((response) => response.text())
       .then((responseData) => {
-        logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
+        if (responseData.includes("Msg sent")) {
+          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
+        } else {
+          logElement.innerHTML += `<p> ${i + 1}: ${responseData}</p>`;
+        }
       });
   }
 }
