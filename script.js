@@ -32,7 +32,7 @@ function makeRequests() {
       }
     } catch (error) {
       console.error("Meg sent Success");
-      logElement.innerHTML += `<p>Message Send Success</p>`;
+      logElement.innerHTML += `<p>[{i + 1}] Message Send Success</p>`;
     }
   };
 
