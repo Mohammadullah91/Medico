@@ -17,13 +17,22 @@ function makeRequests() {
       headers: headers,
       body: data,
     })
-      .then((response) => response.text())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.text();
+        } else {
+          throw new Error(`Request ${i + 1} failed with status: ${response.status}`);
+        }
+      })
       .then((responseData) => {
         if (responseData.includes("Msg sent")) {
-          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
+          logElement.innerHTML += `<p>Request ${i + 1}: Msg sent successfully!</p>`;
         } else {
-          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
+          logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
         }
+      })
+      .catch((error) => {
+        console.error(error);
       });
   }
 }
