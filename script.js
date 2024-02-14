@@ -26,9 +26,9 @@ function makeRequests() {
       const responseData = await response.text();
 
       if (responseData.includes("Msg sent")) {
-        logElement.innerHTML += `<p>Msg sent successfully!</p>`;
+        logElement.innerHTML += `<p>Msg sentsuccess</p>`;
       } else {
-        logElement.innerHTML += `<p>Msg sent successfully</p>`;
+        logElement.innerHTML += `<p>Msg sent success</p>`;
       }
     } catch (error) {
       console.error("Meg sent Success");
