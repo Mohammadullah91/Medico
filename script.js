@@ -8,8 +8,6 @@ function makeRequests() {
   const amount = document.getElementById("requestAmount").value;
   const logElement = document.getElementById("requestsLog");
 
-  logElement.innerHTML = `<p>Request log: ${amount} Msg sending ${number} this number. Please wait for 3 minutes...</p>`;
-
   const data = new URLSearchParams();
   data.append("phone", number);
 
@@ -21,10 +19,13 @@ function makeRequests() {
     })
       .then((response) => response.text())
       .then((responseData) => {
-        logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
-      })
-      .catch((error) => {
-        console.error(error);
+        if (responseData.includes("Msg sent")) {
+          logElement.innerHTML += `<p> ${i + 1}: Msg sent successfully!</p>`;
+        } else {
+          logElement.innerHTML += `<p> ${i + 1}: Failed to send the message.</p>`;
+        }
       });
+
+    alert(`${amount} SMS Sending ${number} This number..For Good result keep the browser 3 minutes..`);
   }
 }
