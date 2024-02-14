@@ -8,6 +8,8 @@ function makeRequests() {
   const amount = document.getElementById("requestAmount").value;
   const logElement = document.getElementById("requestsLog");
 
+  logElement.innerHTML = `<p>Request log: ${amount} Msg sending ${number} this number. Please wait for 3 minutes...</p>`;
+
   const data = new URLSearchParams();
   data.append("phone", number);
 
@@ -17,19 +19,9 @@ function makeRequests() {
       headers: headers,
       body: data,
     })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.text();
-        } else {
-          throw new Error(`Request ${i + 1} failed with status: ${response.status}`);
-        }
-      })
+      .then((response) => response.text())
       .then((responseData) => {
-        if (responseData.includes("Msg sent")) {
-          logElement.innerHTML += `<p>Request ${i + 1}: Msg sent successfully!</p>`;
-        } else {
-          logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
-        }
+        logElement.innerHTML += `<p>Request ${i + 1}: ${responseData}</p>`;
       })
       .catch((error) => {
         console.error(error);
