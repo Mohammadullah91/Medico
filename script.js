@@ -46,15 +46,12 @@ function makeRequests() {
 
       const responseData = await response.json();
 
-      // Handle response as needed
       logElement.innerHTML += `<p>Response: ${JSON.stringify(responseData)}</p>`;
     } catch (error) {
       console.error("Error:", error);
       logElement.innerHTML += `<p>Error occurred during the request.</p>`;
     }
   };
-
-  // Add any additional logic if needed
 
   alert(`Sending request to ${url}. For good results, keep the browser open for a few moments.`);
 
